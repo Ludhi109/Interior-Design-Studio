@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AURA Atelier is a premium, modern interior design studio specializing in luxury residential, commercial, and hospitality spaces. Elevate your living with bespoke architecture.">
+    <meta name="keywords" content="interior design, luxury architecture, custom furniture, residential design, commercial office design, hospitality interior, bespoke space planning">
+    <meta name="author" content="AURA Atelier">
+    <title>AURA ATELIER | Premium Modern Interior Design Studio</title>
+    
+    <!-- Google Fonts: Playfair Display, Montserrat, Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor-dot" id="cursorDot"></div>
+    <div class="custom-cursor-outline" id="cursorOutline"></div>
+
+    <!-- Floating Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">
+                AURA <span class="logo-accent">Atelier</span>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#process" class="nav-link">Process</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-nav btn-hover-gold">Book Consultation</a>
+                <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg" style="background-image: url('assets/hero_bg.png');"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h5 class="hero-subtitle scroll-reveal">BESPOKE ARCHITECTURE & INTERIORS</h5>
+            <h1 class="hero-title scroll-reveal">We Create Spaces <br>That Inspire Living.</h1>
+            <p class="hero-text scroll-reveal">Harmonizing architectural minimalism with luxurious warmth. Crafting refined environments that capture your story.</p>
+            <div class="hero-btn-container scroll-reveal">
+                <a href="#portfolio" class="btn btn-primary btn-hover-gold">Explore Portfolio</a>
+                <a href="#about" class="btn btn-secondary btn-hover-border">Our Philosophy</a>
+            </div>
+        </div>
+        
+        <!-- Floating Glass Card -->
+        <div class="hero-glass-card scroll-reveal">
+            <div class="card-line"></div>
+            <p class="glass-text">"Design is not just what it looks like. Design is how it feels and how beautifully it functions."</p>
+            <span class="glass-author">— PRINCIPAL STUDIO DIRECTIVE</span>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <a href="#about" class="scroll-indicator" id="scrollIndicator">
+            <span class="scroll-mouse">
+                <span class="scroll-wheel"></span>
+            </span>
+            <span class="scroll-text">Scroll Down</span>
+        </a>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section-padding" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-left scroll-reveal">
+                    <h5 class="section-subtitle">THE ATELIER</h5>
+                    <h2 class="section-title">Redefining High-End Spaces Since 2011</h2>
+                    <p class="about-desc">At AURA Atelier, we believe that an exceptional interior is the ultimate expression of sophisticated living. Born in the heart of urban design, our studio focuses on creating balance between raw architectural structure and tactile comfort.</p>
+                    <p class="about-text">Every material, from premium Calacatta marble to textured organic textiles, is meticulously curated to curate light, shadow, and scale. We design for individuals who value craftsmanship, discretion, and timeless aesthetics.</p>
+                    
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="15">0</span><span class="stat-suffix">+</span>
+                            <span class="stat-label">Years of Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="380">0</span><span class="stat-suffix">+</span>
+                            <span class="stat-label">Completed Spaces</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="12">0</span><span class="stat-suffix"></span>
+                            <span class="stat-label">Design Awards</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-right scroll-reveal">
+                    <div class="about-image-wrapper">
+                        <img src="assets/about_detail.png" alt="Luxury Interior Materials Detail" class="about-img">
+                        <div class="about-image-overlay-box">
+                            <span class="overlay-box-number">01</span>
+                            <span class="overlay-box-text">Quality & Precision First</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services section-padding section-bg-dark" id="services">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <h5 class="section-subtitle text-gold">WHAT WE DO</h5>
+                <h2 class="section-title text-white">Our Signature Services</h2>
+                <div class="header-line"></div>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Service Card 1 -->
+                <div class="service-card scroll-reveal">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-hotel"></i>
+                    </div>
+                    <h3 class="service-title">Residential Design</h3>
+                    <p class="service-desc">Bespoke penthouses, modern villas, and open-concept apartments. We tailor spatial flows to match your daily lifestyle and routines.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-chevron-right"></i> Master Suites & Lounges</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Premium Custom Kitchens</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Lighting Design Integration</li>
+                    </ul>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="service-card scroll-reveal">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="service-title">Commercial Concepts</h3>
+                    <p class="service-desc">Sophisticated executive offices, high-end galleries, and luxury boutiques that reflect your brand identity with spatial authority.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-chevron-right"></i> Premium Executive Offices</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Luxury Boutique Fronts</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Spatial Brand Strategy</li>
+                    </ul>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="service-card scroll-reveal">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-martini-glass-citrus"></i>
+                    </div>
+                    <h3 class="service-title">Hospitality Spaces</h3>
+                    <p class="service-desc">Cinematic, mood-driven environments for luxury boutique hotels, restaurants, and lounges that elevate guest experience.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-chevron-right"></i> Boutique Hotel Lobbies</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Mood-Lit Restaurants & Bars</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Wellness & Spa Havens</li>
+                    </ul>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="service-card scroll-reveal">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                    <h3 class="service-title">Bespoke Furniture</h3>
+                    <p class="service-desc">Custom-commissioned furniture, lighting fixtures, and decorative details designed in-house to fit your project perfectly.</p>
+                    <ul class="service-list">
+                        <li><i class="fa-solid fa-chevron-right"></i> Architectural Lounge Seating</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Sculptural Lighting Fixtures</li>
+                        <li><i class="fa-solid fa-chevron-right"></i> Hand-Crafted Storage Systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects / Portfolio Section -->
+    <section class="portfolio section-padding" id="portfolio">
+        <div class="container">
+            <div class="portfolio-top-flex scroll-reveal">
+                <div>
+                    <h5 class="section-subtitle">PORTFOLIO</h5>
+                    <h2 class="section-title">Selected Projects</h2>
+                </div>
+                
+                <!-- Filters -->
+                <div class="portfolio-filters" id="portfolioFilters">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="residential">Residential</button>
+                    <button class="filter-btn" data-filter="commercial">Commercial</button>
+                    <button class="filter-btn" data-filter="hospitality">Hospitality</button>
+                    <button class="filter-btn" data-filter="furniture">Furniture</button>
+                </div>
+            </div>
+            
+            <!-- Projects Grid -->
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Project 1 -->
+                <div class="project-item scroll-reveal" data-category="residential">
+                    <div class="project-img-container">
+                        <img src="assets/project_residential.png" alt="The Alabaster Kitchen Project">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <span class="project-category">Residential</span>
+                                <h4 class="project-title-text">The Alabaster Kitchen</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-item scroll-reveal" data-category="commercial">
+                    <div class="project-img-container">
+                        <img src="assets/project_commercial.png" alt="The Oak & Glass Executive Workspace">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <span class="project-category">Commercial</span>
+                                <h4 class="project-title-text">Ascent Executive Hub</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-item scroll-reveal" data-category="hospitality">
+                    <div class="project-img-container">
+                        <img src="assets/project_hospitality.png" alt="Amber Lounge Boutique Bar">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <span class="project-category">Hospitality</span>
+                                <h4 class="project-title-text">Amber Lounge & Bar</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-item scroll-reveal" data-category="furniture">
+                    <div class="project-img-container">
+                        <img src="assets/project_furniture.png" alt="Aesthetic Sculptural Chair">
+                        <div class="project-overlay">
+                            <div class="project-overlay-content">
+                                <span class="project-category">Furniture</span>
+                                <h4 class="project-title-text">Monolith Lounge Chair</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-us section-padding section-bg-dark text-white" id="why-us">
+        <div class="container">
+            <div class="why-us-grid">
+                <div class="why-us-left scroll-reveal">
+                    <h5 class="section-subtitle text-gold">OUR EXCELLENCE</h5>
+                    <h2 class="section-title text-white">Why Select Aura Atelier?</h2>
+                    <p class="why-us-desc">We offer a highly individualized, concierge approach to architecture and interiors. We handle everything from spatial architecture to the smallest hand-woven textile selection.</p>
+                    
+                    <div class="why-list-wrapper">
+                        <div class="why-item">
+                            <div class="why-number">01</div>
+                            <div class="why-text-content">
+                                <h4 class="why-title">Bespoke Curation</h4>
+                                <p class="why-para">We reject cookie-cutter catalogs. We design custom items and curate vintage pieces specifically for your identity.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-number">02</div>
+                            <div class="why-text-content">
+                                <h4 class="why-title">Global Sourcing Network</h4>
+                                <p class="why-para">We coordinate with premium stone quarries in Italy, hand-loom weavers in Belgium, and woodcrafters in Japan.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-number">03</div>
+                            <div class="why-text-content">
+                                <h4 class="why-title">Seamless Turnkey Delivery</h4>
+                                <p class="why-para">Our proprietary project management software guarantees schedule, budget, and construction fidelity.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="why-us-right scroll-reveal">
+                    <div class="why-feature-card">
+                        <div class="why-feature-top">
+                            <i class="fa-solid fa-gem gold-glow-icon"></i>
+                            <h3 class="card-big-title">Elite Quality Pledge</h3>
+                        </div>
+                        <p class="card-big-desc">"Every intersection, joint, and lighting angle is engineered to architectural perfection. We do not design for trends; we design for lifetimes."</p>
+                        <div class="card-author-info">
+                            <span class="card-signature">Aura Atelier Team</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section / Timeline -->
+    <section class="process section-padding" id="process">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <h5 class="section-subtitle">THE JOURNEY</h5>
+                <h2 class="section-title">Our Work Methodology</h2>
+                <div class="header-line"></div>
+            </div>
+            
+            <div class="process-grid-container">
+                <!-- Horizontal Connecting Line Track -->
+                <div class="process-line-track">
+                    <div class="process-line-fill" id="processLineFill"></div>
+                </div>
+                
+                <div class="process-grid">
+                    <!-- Step 1 -->
+                    <div class="process-item scroll-reveal" data-step="1">
+                        <div class="process-indicator">
+                            <span class="process-number">01</span>
+                            <div class="process-node"></div>
+                        </div>
+                        <div class="process-card">
+                            <h3 class="process-card-title">Initial Consultation</h3>
+                            <p class="process-card-desc">We listen to your desires, layout parameters, functional needs, and design preferences over coffee or video call to establish alignment.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="process-item scroll-reveal" data-step="2">
+                        <div class="process-indicator">
+                            <span class="process-number">02</span>
+                            <div class="process-node"></div>
+                        </div>
+                        <div class="process-card">
+                            <h3 class="process-card-title">Spatial Concept & Layouts</h3>
+                            <p class="process-card-desc">We generate layout options, mood boards, scale configurations, and hand sketches to define the circulation flow of the environment.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="process-item scroll-reveal" data-step="3">
+                        <div class="process-indicator">
+                            <span class="process-number">03</span>
+                            <div class="process-node"></div>
+                        </div>
+                        <div class="process-card">
+                            <h3 class="process-card-title">3D Renders & Sourcing</h3>
+                            <p class="process-card-desc">We create photorealistic 3D visualization options alongside detailed lists of textiles, stone samples, lighting, and plumbing systems.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="process-item scroll-reveal" data-step="4">
+                        <div class="process-indicator">
+                            <span class="process-number">04</span>
+                            <div class="process-node"></div>
+                        </div>
+                        <div class="process-card">
+                            <h3 class="process-card-title">Construction & Styling</h3>
+                            <p class="process-card-desc">Our designers oversee the physical builds, millwork installers, and paint details, styling the final space down to the art and books.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Slider Section -->
+    <section class="testimonials section-padding section-bg-dark text-white" id="testimonials">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <h5 class="section-subtitle text-gold">CLIENT STORIES</h5>
+                <h2 class="section-title text-white">Refined Feedback</h2>
+                <div class="header-line"></div>
+            </div>
+            
+            <div class="slider-wrapper scroll-reveal">
+                <div class="testimonials-slider" id="testimonialsSlider">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-slide active">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text">"AURA Atelier transformed our penthouse into a masterpiece of light and luxury. Their execution was flawless, their selection of natural materials impeccable, and the level of service was unmatched."</p>
+                        <div class="client-info">
+                            <img src="assets/avatar_2.png" alt="Eleanor Vance" class="client-avatar">
+                            <div>
+                                <h4 class="client-name">Eleanor Vance</h4>
+                                <span class="client-title">Founder, V-Luxe Penthouse</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-slide">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text">"The workspace they structured for our capital firm has redefined our workplace culture. They married clean industrial glass lines with deep warm timbers to produce a spatial wonder."</p>
+                        <div class="client-info">
+                            <img src="assets/avatar_1.png" alt="Marcus Stone" class="client-avatar">
+                            <div>
+                                <h4 class="client-name">Marcus Stone</h4>
+                                <span class="client-title">CEO, Ascent Capital Office</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slider Controls -->
+                <div class="slider-controls">
+                    <button class="slider-control-btn prev-btn" id="prevSlide" aria-label="Previous Testimonial">
+                        <i class="fa-solid fa-arrow-left-long"></i>
+                    </button>
+                    <div class="slider-bullets" id="sliderBullets">
+                        <span class="bullet active" data-index="0"></span>
+                        <span class="bullet" data-index="1"></span>
+                    </div>
+                    <button class="slider-control-btn next-btn" id="nextSlide" aria-label="Next Testimonial">
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team section-padding" id="team">
+        <div class="container">
+            <div class="section-header text-center scroll-reveal">
+                <h5 class="section-subtitle">THE MINDS</h5>
+                <h2 class="section-title">Our Principal Creators</h2>
+                <div class="header-line"></div>
+            </div>
+            
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card-wrapper scroll-reveal">
+                    <div class="team-img-container">
+                        <img src="assets/team_1.png" alt="Julian Vance">
+                        <div class="team-overlay">
+                            <div class="team-socials">
+                                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-info-box">
+                        <h3 class="team-name">Julian Vance</h3>
+                        <span class="team-role">Principal Architect & Founder</span>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card-wrapper scroll-reveal">
+                    <div class="team-img-container">
+                        <img src="assets/team_2.png" alt="Sophia Laurent">
+                        <div class="team-overlay">
+                            <div class="team-socials">
+                                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-info-box">
+                        <h3 class="team-name">Sophia Laurent</h3>
+                        <span class="team-role">Lead Interior & Lighting Designer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Map Section -->
+    <section class="contact section-padding" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Left: Form -->
+                <div class="contact-form-container scroll-reveal">
+                    <h5 class="section-subtitle">CONTACT US</h5>
+                    <h2 class="section-title">Commence Your Project</h2>
+                    <p class="contact-intro">Let us build your dream space. Fill out the contact form below and our studio coordinator will reach out to you within 24 hours.</p>
+                    
+                    <form id="contactForm" class="elegant-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" required placeholder="john@example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectType">Project Typology</label>
+                            <div class="select-wrapper">
+                                <select id="projectType" required>
+                                    <option value="" disabled selected>Select project type</option>
+                                    <option value="residential">Residential Architecture & Interior</option>
+                                    <option value="commercial">Commercial Workspace</option>
+                                    <option value="hospitality">Hospitality Restaurant/Lobby</option>
+                                    <option value="furniture">Custom Bespoke Furniture</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down select-chevron"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Project Description</label>
+                            <textarea id="message" rows="5" required placeholder="Describe your property, timelines, location, and aesthetic preferences..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-hover-gold w-full" id="submitBtn">
+                            <span>Send Inquiry</span>
+                            <i class="fa-solid fa-paper-plane send-icon"></i>
+                        </button>
+                    </form>
+                    <div class="form-feedback-message" id="formFeedback"></div>
+                </div>
+                
+                <!-- Right: Map Placeholder / Visual Info -->
+                <div class="contact-info-container scroll-reveal">
+                    <div class="info-block">
+                        <h4 class="info-title">Atelier Headquarters</h4>
+                        <p class="info-desc">740 Rue De La Paix, Suite 500<br>Paris, France 75002</p>
+                    </div>
+                    
+                    <div class="info-block">
+                        <h4 class="info-title">Direct Contact</h4>
+                        <p class="info-desc">
+                            Email: <a href="mailto:inquiries@auraatelier.com">inquiries@auraatelier.com</a><br>
+                            Phone: +33 (0) 1 42 68 53 00
+                        </p>
+                    </div>
+
+                    <!-- Modern Glassmorphic Map Placeholder -->
+                    <div class="map-placeholder">
+                        <div class="map-grid-pattern"></div>
+                        <div class="map-glass-card">
+                            <div class="map-marker-pulse"></div>
+                            <div class="map-card-info">
+                                <span class="map-studio-title">AURA Atelier</span>
+                                <span class="map-studio-address">Paris, France</span>
+                            </div>
+                        </div>
+                        <!-- Vector-style artistic details inside the placeholder map -->
+                        <svg class="map-aesthetic-vectors" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="M 0,20 Q 20,40 50,20 T 100,50" fill="none" stroke="rgba(197, 168, 128, 0.2)" stroke-width="0.5" />
+                            <path d="M 10,80 Q 40,70 60,90 T 100,70" fill="none" stroke="rgba(197, 168, 128, 0.15)" stroke-width="0.5" />
+                            <line x1="50" y1="0" x2="50" y2="100" stroke="rgba(197, 168, 128, 0.1)" stroke-width="0.3" />
+                            <line x1="0" y1="50" x2="100" y2="50" stroke="rgba(197, 168, 128, 0.1)" stroke-width="0.3" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer text-white">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h3 class="footer-logo">AURA <span class="logo-accent">Atelier</span></h3>
+                    <p class="footer-brand-desc">Designing cinematic spaces that reflect architecture, light, and modern lifestyles. We believe in crafting environments with legacy.</p>
+                    <div class="footer-social-icons">
+                        <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" aria-label="Behance"><i class="fa-brands fa-behance"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links-column">
+                    <h4 class="footer-title">STUDIO</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Atelier</a></li>
+                        <li><a href="#portfolio">Our Portfolio</a></li>
+                        <li><a href="#process">Work Process</a></li>
+                        <li><a href="#team">Our Creators</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-column">
+                    <h4 class="footer-title">SERVICES</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Residential Interiors</a></li>
+                        <li><a href="#services">Executive Offices</a></li>
+                        <li><a href="#services">Boutique & Lounges</a></li>
+                        <li><a href="#services">Bespoke Furniture</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 class="footer-title">THE JOURNAL</h4>
+                    <p class="newsletter-text">Subscribe to receive design inspirations, material trend analyses, and exclusive projects updates.</p>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Your Email Address" required class="newsletter-input" aria-label="Email address for journal subscription">
+                        <button type="submit" class="newsletter-btn" aria-label="Subscribe"><i class="fa-solid fa-arrow-right-long"></i></button>
+                    </form>
+                    <div id="newsletterFeedback" class="newsletter-feedback"></div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright-text">&copy; 2026 AURA Atelier. All rights reserved. Created by Antigravity.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
