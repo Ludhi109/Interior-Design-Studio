@@ -345,7 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     // 9. ELEGANT FORM SUBMISSIONS & VALIDATIONS (API CONNECTED)
     // ----------------------------------------------------------------------
-    const API_BASE_URL = 'http://localhost:5000/api';
+    // Configure API URL dynamically based on environment (local development vs production)
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000/api'
+        : 'https://YOUR-RENDER-BACKEND-URL.onrender.com/api'; // TODO: Replace with your actual live Render Web Service URL
     const contactForm = document.getElementById('contactForm');
     const formFeedback = document.getElementById('formFeedback');
     
