@@ -1250,10 +1250,10 @@ body.cursor-gallery-hover .custom-cursor-dot {
 
 .process-card {
     background-color: #FFFFFF;
-    border: 1px solid var(--color-border-light);
-    border-top: 3px solid var(--color-gold); /* Luxe top accent line */
-    padding: 25px 22px 30px 22px;             /* Shifted content up by reducing top padding */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(206, 178, 141, 0.25); /* Soft gold border for highlight */
+    border-top: 3px solid var(--color-gold);     /* Luxe top accent line */
+    padding: 25px 22px 30px 22px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04); /* Lifted soft shadow */
     transition: var(--transition-smooth);
     height: 100%;
     display: flex;
@@ -1275,11 +1275,17 @@ body.cursor-gallery-hover .custom-cursor-dot {
     line-height: 1.6;
 }
 
+/* Card highlight when active step is scrolled into view */
+.process-item.active .process-card {
+    border-color: var(--color-gold);
+    box-shadow: 0 15px 35px rgba(206, 178, 141, 0.15); /* Soft gold scroll glow */
+}
+
 /* Card hover animation */
 .process-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-    border-color: rgba(197, 168, 128, 0.3);
+    box-shadow: 0 20px 40px rgba(206, 178, 141, 0.22); /* Enhanced gold-tint shadow */
+    border-color: var(--color-gold);
 }
 
 @media (max-width: 991px) {
@@ -1647,16 +1653,20 @@ body.cursor-gallery-hover .custom-cursor-dot {
     letter-spacing: 1px;
     text-transform: uppercase;
     opacity: 0;
+    visibility: hidden;
     transition: var(--transition-smooth);
 }
 
-.form-feedback-message.success {
+.form-feedback-message.show {
     opacity: 1;
+    visibility: visible;
+}
+
+.form-feedback-message.success {
     color: #4CAF50;
 }
 
 .form-feedback-message.error {
-    opacity: 1;
     color: #F44336;
 }
 

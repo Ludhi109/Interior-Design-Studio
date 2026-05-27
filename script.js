@@ -349,34 +349,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const formFeedback = document.getElementById('formFeedback');
     
     if (contactForm && formFeedback) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const submitBtnText = submitBtn.querySelector('span');
-            
-            // Simple visual loading state
-            submitBtn.style.pointerEvents = 'none';
-            submitBtnText.innerText = 'Sending Inquiry...';
-            
-            setTimeout(() => {
-                // Success message response
-                formFeedback.innerText = 'Thank you! Your inquiry was successfully received. Our studio will connect with you shortly.';
-                formFeedback.className = 'form-feedback-message success';
-                
-                // Clear fields
-                contactForm.reset();
-                
-                // Restore button
-                submitBtn.style.pointerEvents = 'auto';
-                submitBtnText.innerText = 'Send Inquiry';
-                
-                // Fade feedback out after duration
-                setTimeout(() => {
-                    formFeedback.style.opacity = '0';
-                }, 6000);
-            }, 1500);
-        });
+         contactForm.addEventListener('submit', (e) => {
+             e.preventDefault();
+             
+             const submitBtn = document.getElementById('submitBtn');
+             const submitBtnText = submitBtn.querySelector('span');
+             
+             // Simple visual loading state
+             submitBtn.style.pointerEvents = 'none';
+             submitBtnText.innerText = 'Sending Inquiry...';
+             
+             setTimeout(() => {
+                 // Success message response
+                 formFeedback.innerText = 'Thank you! Your inquiry was successfully received. Our studio will connect with you shortly.';
+                 formFeedback.className = 'form-feedback-message success show';
+                 
+                 // Clear fields
+                 contactForm.reset();
+                 
+                 // Restore button
+                 submitBtn.style.pointerEvents = 'auto';
+                 submitBtnText.innerText = 'Send Inquiry';
+                 
+                 // Fade feedback out after duration by removing the show class
+                 setTimeout(() => {
+                     formFeedback.classList.remove('show');
+                 }, 6000);
+             }, 1500);
+         });
     }
     
     // Newsletter Submit
