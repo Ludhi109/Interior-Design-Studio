@@ -77,3 +77,25 @@ exports.getAllInquiries = (req, res) => {
     });
   });
 };
+
+/**
+ * Diagnostic endpoint to test SMTP settings live on Render
+ */
+exports.diagEmail = (req, res) => {
+  emailService.testSMTPConnection((err, result) => {
+    if (err) {
+      console.error('[DIAGNOSTICS CONTROLLER] SMTP connection verification failed:', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'SMTP Diagnostics failed. Please verify your Render environment variables.',
+        error: err.message
+      });
+    }
+    
+    res.status(200).json({
+      status: 'success',
+      message: 'SMTP Diagnostics succeeded. A test email has been successfully sent!',
+      data: result
+    });
+  });
+};

@@ -11,4 +11,7 @@ router.post('/newsletter', newsletterController.handleSubscription);
 router.get('/admin/inquiries', contactController.getAllInquiries);
 router.get('/admin/subscribers', newsletterController.getAllSubscribers);
 
+// Diagnostic endpoints
+router.get('/diag/email', contactController.diagEmail);
+
 module.exports = router;

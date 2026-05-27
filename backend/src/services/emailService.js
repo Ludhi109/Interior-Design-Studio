@@ -123,3 +123,45 @@ function dispatchMail(subject, htmlContent) {
     console.log(htmlContent.replace(/<[^>]*>/g, '').trim().substring(0, 400) + '...\n---------------------------------------\n');
   }
 }
+
+/**
+ * Diagnostics helper to test SMTP connection and send a test email.
+ */
+exports.testSMTPConnection = (callback) => {
+  if (!transporter) {
+    return callback(new Error('SMTP transporter is not initialized. Make sure SMTP_USER and SMTP_PASS environment variables are defined.'));
+  }
+  
+  console.log('[DIAGNOSTICS] Verifying SMTP connection...');
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('[DIAGNOSTICS ERROR] SMTP verification failed:', error.message);
+      return callback(error);
+    }
+    
+    console.log('[DIAGNOSTICS] SMTP verification succeeded. Attempting to send diagnostic test email...');
+    const mailOptions = {
+      from: `"AURA Atelier SMTP Test" <${process.env.SMTP_USER}>`,
+      to: adminEmail,
+      subject: '[AURA Atelier] Diagnostics SMTP Test Email',
+      html: '<p>If you see this email, your Render backend SMTP credentials are working 100% correctly!</p>'
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error('[DIAGNOSTICS ERROR] SMTP test email send failed:', err.message);
+        callback(new Error(`Transporter verification succeeded, but sendMail failed: ${err.message}`));
+      } else {
+        console.log('[DIAGNOSTICS] SMTP test email sent successfully!');
+        callback(null, {
+          verified: true,
+          emailSent: true,
+          messageId: info.messageId,
+          response: info.response,
+          smtpUser: process.env.SMTP_USER,
+          adminEmail: adminEmail
+        });
+      }
+    });
+  });
+};
