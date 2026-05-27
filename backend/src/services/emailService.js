@@ -18,7 +18,8 @@ if (process.env.SMTP_USER && process.env.SMTP_PASS) {
         },
         connectionTimeout: 8000,
         greetingTimeout: 8000,
-        socketTimeout: 10000
+        socketTimeout: 10000,
+        family: 4 // Force IPv4 to prevent ENETUNREACH error on IPv6-unsupported networks like Render
       }
     : {
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
@@ -30,7 +31,8 @@ if (process.env.SMTP_USER && process.env.SMTP_PASS) {
         },
         connectionTimeout: 8000,
         greetingTimeout: 8000,
-        socketTimeout: 10000
+        socketTimeout: 10000,
+        family: 4 // Force IPv4
       };
 
   transporter = nodemailer.createTransport(transportConfig);
