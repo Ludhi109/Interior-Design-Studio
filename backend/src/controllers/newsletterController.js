@@ -1,5 +1,7 @@
+const db = require('../config/db');
+
 /**
- * Handles newsletter subscription requests.
+ * Handles newsletter subscription requests by saving them to SQLite.
  */
 exports.handleSubscription = (req, res) => {
   const { email } = req.body;
@@ -21,16 +23,59 @@ exports.handleSubscription = (req, res) => {
     });
   }
 
-  // 3. Log subscription (simulating database storage)
-  console.log('====================================');
-  console.log('[NEW JOURNAL SUBSCRIPTION]');
-  console.log(`Email:     ${email}`);
-  console.log(`Timestamp: ${new Date().toISOString()}`);
-  console.log('====================================');
+  // 3. Insert record into database
+  const sql = `INSERT INTO subscribers (email) VALUES (?)`;
 
-  // 4. Return success response
-  res.status(200).json({
-    status: 'success',
-    message: 'Successfully Subscribed to Journal.'
+  db.run(sql, [email], function (err) {
+    if (err) {
+      // Handle email duplicates gracefully due to UNIQUE constraint
+      if (err.message.includes('UNIQUE constraint failed')) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'This email is already subscribed to our journal.'
+        });
+      }
+
+      console.error('[DATABASE ERROR] Failed to subscribe email:', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'An internal error occurred. Please try again.'
+      });
+    }
+
+    // Log subscription locally
+    console.log('====================================');
+    console.log(`[DATABASE INSERTED] Subscriber ID: ${this.lastID}`);
+    console.log(`Email:     ${email}`);
+    console.log('====================================');
+
+    // 4. Return success response
+    res.status(200).json({
+      status: 'success',
+      message: 'Successfully Subscribed to Journal.'
+    });
+  });
+};
+
+/**
+ * Administrative endpoint to fetch all subscribers.
+ */
+exports.getAllSubscribers = (req, res) => {
+  const sql = `SELECT * FROM subscribers ORDER BY created_at DESC`;
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      console.error('[DATABASE ERROR] Failed to fetch subscribers:', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Failed to retrieve subscribers database records.'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      count: rows.length,
+      data: rows
+    });
   });
 };

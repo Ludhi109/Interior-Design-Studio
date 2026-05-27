@@ -1,5 +1,7 @@
+const db = require('../config/db');
+
 /**
- * Handles project inquiry / contact form submissions.
+ * Handles project inquiry / contact form submissions by saving them to SQLite.
  */
 exports.handleSubmission = (req, res) => {
   const { name, email, projectType, message } = req.body;
@@ -21,19 +23,53 @@ exports.handleSubmission = (req, res) => {
     });
   }
 
-  // 3. Log submission (simulating database storage)
-  console.log('====================================');
-  console.log('[NEW PROJECT INQUIRY RECEIVED]');
-  console.log(`Name:        ${name}`);
-  console.log(`Email:       ${email}`);
-  console.log(`Typology:    ${projectType}`);
-  console.log(`Description: ${message}`);
-  console.log(`Timestamp:   ${new Date().toISOString()}`);
-  console.log('====================================');
+  // 3. Insert record into database
+  const sql = `INSERT INTO inquiries (name, email, project_type, message) VALUES (?, ?, ?, ?)`;
+  
+  db.run(sql, [name, email, projectType, message], function (err) {
+    if (err) {
+      console.error('[DATABASE ERROR] Failed to insert inquiry:', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'An internal error occurred while saving your inquiry. Please try again.'
+      });
+    }
 
-  // 4. Return success response
-  res.status(200).json({
-    status: 'success',
-    message: 'Thank you! Your inquiry was successfully received. Our studio will connect with you shortly.'
+    // Log insertion locally
+    console.log('====================================');
+    console.log(`[DATABASE INSERTED] Inquiry ID: ${this.lastID}`);
+    console.log(`Name:        ${name}`);
+    console.log(`Email:       ${email}`);
+    console.log(`Typology:    ${projectType}`);
+    console.log('====================================');
+
+    // 4. Return success response
+    res.status(200).json({
+      status: 'success',
+      message: 'Thank you! Your inquiry was successfully received. Our studio will connect with you shortly.'
+    });
+  });
+};
+
+/**
+ * Administrative endpoint to fetch all inquiry submissions.
+ */
+exports.getAllInquiries = (req, res) => {
+  const sql = `SELECT * FROM inquiries ORDER BY created_at DESC`;
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      console.error('[DATABASE ERROR] Failed to fetch inquiries:', err.message);
+      return res.status(500).json({
+        status: 'error',
+        message: 'Failed to retrieve inquiries database records.'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      count: rows.length,
+      data: rows
+    });
   });
 };
