@@ -343,8 +343,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------------------------
-    // 9. ELEGANT FORM SUBMISSIONS & VALIDATIONS
+    // 9. ELEGANT FORM SUBMISSIONS & VALIDATIONS (API CONNECTED)
     // ----------------------------------------------------------------------
+    const API_BASE_URL = 'http://localhost:5000/api';
     const contactForm = document.getElementById('contactForm');
     const formFeedback = document.getElementById('formFeedback');
     
@@ -355,27 +356,54 @@ document.addEventListener('DOMContentLoaded', () => {
              const submitBtn = document.getElementById('submitBtn');
              const submitBtnText = submitBtn.querySelector('span');
              
-             // Simple visual loading state
+             // Get input fields
+             const name = document.getElementById('name').value;
+             const email = document.getElementById('email').value;
+             const projectType = document.getElementById('projectType').value;
+             const message = document.getElementById('message').value;
+
+             // Visual loading state
              submitBtn.style.pointerEvents = 'none';
              submitBtnText.innerText = 'Sending Inquiry...';
+             formFeedback.classList.remove('show', 'success', 'error');
              
-             setTimeout(() => {
-                 // Success message response
-                 formFeedback.innerText = 'Thank you! Your inquiry was successfully received. Our studio will connect with you shortly.';
-                 formFeedback.className = 'form-feedback-message success show';
-                 
-                 // Clear fields
-                 contactForm.reset();
-                 
+             // API request
+             fetch(`${API_BASE_URL}/contact`, {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({ name, email, projectType, message })
+             })
+             .then(response => response.json().then(data => ({ status: response.status, data })))
+             .then(({ status, data }) => {
+                 if (status === 200) {
+                     // Success
+                     formFeedback.innerText = data.message;
+                     formFeedback.className = 'form-feedback-message success show';
+                     contactForm.reset();
+                 } else {
+                     // Server validation/business logic error
+                     formFeedback.innerText = data.message || 'Validation failed. Please verify your fields.';
+                     formFeedback.className = 'form-feedback-message error show';
+                 }
+             })
+             .catch(err => {
+                 // Network error
+                 formFeedback.innerText = 'Unable to connect to server. Please try again later.';
+                 formFeedback.className = 'form-feedback-message error show';
+                 console.error('API Error:', err);
+             })
+             .finally(() => {
                  // Restore button
                  submitBtn.style.pointerEvents = 'auto';
                  submitBtnText.innerText = 'Send Inquiry';
                  
-                 // Fade feedback out after duration by removing the show class
+                 // Auto-hide feedback after 6 seconds
                  setTimeout(() => {
                      formFeedback.classList.remove('show');
                  }, 6000);
-             }, 1500);
+             });
          });
     }
     
@@ -388,19 +416,43 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             
             const inputField = newsletterForm.querySelector('.newsletter-input');
-            inputField.disabled = true;
+            const email = inputField.value;
             
-            setTimeout(() => {
-                newsletterFeedback.innerText = 'Successfully Subscribed to Journal.';
-                newsletterFeedback.classList.add('active');
-                
-                inputField.value = '';
+            inputField.disabled = true;
+            newsletterFeedback.classList.remove('active', 'error');
+            
+            // API request
+            fetch(`${API_BASE_URL}/newsletter`, {
+                method: 'POST',
+                headers: {
+                     'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            })
+            .then(response => response.json().then(data => ({ status: response.status, data })))
+            .then(({ status, data }) => {
+                if (status === 200) {
+                    newsletterFeedback.innerText = data.message;
+                    newsletterFeedback.className = 'newsletter-feedback active';
+                    inputField.value = '';
+                } else {
+                    newsletterFeedback.innerText = data.message || 'Subscription failed.';
+                    newsletterFeedback.className = 'newsletter-feedback active error';
+                }
+            })
+            .catch(err => {
+                newsletterFeedback.innerText = 'Server error. Please try again.';
+                newsletterFeedback.className = 'newsletter-feedback active error';
+                console.error('API Error:', err);
+            })
+            .finally(() => {
                 inputField.disabled = false;
                 
+                // Auto-hide feedback after 4 seconds
                 setTimeout(() => {
                     newsletterFeedback.classList.remove('active');
                 }, 4000);
-            }, 1000);
+            });
         });
     }
 });
