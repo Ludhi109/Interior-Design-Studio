@@ -5,16 +5,36 @@ const adminEmail = process.env.ADMIN_EMAIL || 'luckylucky16477@gmail.com';
 // Setup email transporter if credentials exist in .env
 let transporter = null;
 if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-  transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_PORT === '465',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
-    }
-  });
-  console.log('[EMAIL SERVICE] SMTP Transporter configured successfully.');
+  const isGmail = 
+    process.env.SMTP_HOST === 'smtp.gmail.com' || 
+    (!process.env.SMTP_HOST && process.env.SMTP_USER.endsWith('@gmail.com'));
+
+  const transportConfig = isGmail 
+    ? {
+        service: 'gmail',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS
+        },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000
+      }
+    : {
+        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        port: parseInt(process.env.SMTP_PORT || '587'),
+        secure: process.env.SMTP_PORT === '465',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS
+        },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 10000
+      };
+
+  transporter = nodemailer.createTransport(transportConfig);
+  console.log(`[EMAIL SERVICE] SMTP Transporter configured successfully (Gmail mode: ${isGmail}).`);
 } else {
   console.log('[EMAIL SERVICE] SMTP details not configured. Operating in simulated console log mode.');
 }
