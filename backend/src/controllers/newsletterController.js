@@ -1,7 +1,8 @@
 const db = require('../config/db');
+const emailService = require('../services/emailService');
 
 /**
- * Handles newsletter subscription requests by saving them to SQLite.
+ * Handles newsletter subscription requests by saving them to SQLite and sending email notifications.
  */
 exports.handleSubscription = (req, res) => {
   const { email } = req.body;
@@ -48,6 +49,9 @@ exports.handleSubscription = (req, res) => {
     console.log(`[DATABASE INSERTED] Subscriber ID: ${this.lastID}`);
     console.log(`Email:     ${email}`);
     console.log('====================================');
+
+    // Send email notification to admin
+    emailService.sendNewsletterNotification(email);
 
     // 4. Return success response
     res.status(200).json({

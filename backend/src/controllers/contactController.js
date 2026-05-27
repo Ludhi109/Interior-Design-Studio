@@ -1,7 +1,8 @@
 const db = require('../config/db');
+const emailService = require('../services/emailService');
 
 /**
- * Handles project inquiry / contact form submissions by saving them to SQLite.
+ * Handles project inquiry / contact form submissions by saving them to SQLite and sending email notifications.
  */
 exports.handleSubmission = (req, res) => {
   const { name, email, projectType, message } = req.body;
@@ -42,6 +43,9 @@ exports.handleSubmission = (req, res) => {
     console.log(`Email:       ${email}`);
     console.log(`Typology:    ${projectType}`);
     console.log('====================================');
+
+    // Send email notification to admin
+    emailService.sendContactNotification({ name, email, projectType, message });
 
     // 4. Return success response
     res.status(200).json({
