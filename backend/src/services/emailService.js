@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const https = require('https');
 
 const adminEmail = process.env.ADMIN_EMAIL || 'luckylucky16477@gmail.com';
 
@@ -118,10 +119,12 @@ exports.sendNewsletterNotification = (subscriberEmail) => {
 };
 
 /**
- * Helper to dispatch mail via SMTP or log it as a simulation.
+ * Helper to dispatch mail via Brevo HTTP API, SMTP, or log it as a simulation.
  */
 function dispatchMail(subject, htmlContent) {
-  if (transporter) {
+  if (process.env.BREVO_API_KEY) {
+    sendBrevoEmail(subject, htmlContent);
+  } else if (transporter) {
     const mailOptions = {
       from: `"AURA Atelier API" <${process.env.SMTP_USER}>`,
       to: adminEmail,
@@ -147,11 +150,66 @@ function dispatchMail(subject, htmlContent) {
 }
 
 /**
- * Diagnostics helper to test SMTP connection and send a test email.
+ * Diagnostics helper to test SMTP or Brevo HTTP API connection.
  */
 exports.testSMTPConnection = (callback) => {
+  if (process.env.BREVO_API_KEY) {
+    console.log('[DIAGNOSTICS] Verifying Brevo HTTP API connection...');
+    const apiKey = process.env.BREVO_API_KEY;
+    const senderEmail = process.env.SMTP_USER || 'luckylucky16477@gmail.com';
+    
+    const postData = JSON.stringify({
+      sender: { name: 'AURA Atelier SMTP Test', email: senderEmail },
+      to: [{ email: adminEmail }],
+      subject: '[AURA Atelier] Diagnostics Brevo HTTP Test Email',
+      htmlContent: '<p>If you see this email, your Render backend Brevo HTTP API integration is working 100% correctly!</p>'
+    });
+
+    const options = {
+      hostname: 'api.brevo.com',
+      port: 443,
+      path: '/v3/smtp/email',
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': apiKey,
+        'content-type': 'application/json',
+        'content-length': Buffer.byteLength(postData)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          console.log('[DIAGNOSTICS] Brevo API connection succeeded and test email dispatched.');
+          callback(null, {
+            verified: true,
+            emailSent: true,
+            provider: 'Brevo HTTP API',
+            response: body,
+            adminEmail: adminEmail
+          });
+        } else {
+          console.error('[DIAGNOSTICS ERROR] Brevo API failed with status:', res.statusCode, body);
+          callback(new Error(`Brevo HTTP API returned status ${res.statusCode}: ${body}`));
+        }
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('[DIAGNOSTICS ERROR] Brevo API request failed:', err.message);
+      callback(err);
+    });
+
+    req.write(postData);
+    req.end();
+    return;
+  }
+
   if (!transporter) {
-    return callback(new Error('SMTP transporter is not initialized. Make sure SMTP_USER and SMTP_PASS environment variables are defined.'));
+    return callback(new Error('SMTP transporter is not initialized. Make sure SMTP_USER and SMTP_PASS or BREVO_API_KEY environment variables are defined.'));
   }
   
   console.log('[DIAGNOSTICS] Verifying SMTP connection...');
@@ -178,6 +236,7 @@ exports.testSMTPConnection = (callback) => {
         callback(null, {
           verified: true,
           emailSent: true,
+          provider: 'SMTP',
           messageId: info.messageId,
           response: info.response,
           smtpUser: process.env.SMTP_USER,
@@ -187,3 +246,50 @@ exports.testSMTPConnection = (callback) => {
     });
   });
 };
+
+/**
+ * Sends email using Brevo's HTTP API (bypassing Render SMTP blocks)
+ */
+function sendBrevoEmail(subject, htmlContent) {
+  const apiKey = process.env.BREVO_API_KEY;
+  const senderEmail = process.env.SMTP_USER || 'luckylucky16477@gmail.com';
+
+  const postData = JSON.stringify({
+    sender: { name: 'AURA Atelier API', email: senderEmail },
+    to: [{ email: adminEmail }],
+    subject: subject,
+    htmlContent: htmlContent
+  });
+
+  const options = {
+    hostname: 'api.brevo.com',
+    port: 443,
+    path: '/v3/smtp/email',
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'api-key': apiKey,
+      'content-type': 'application/json',
+      'content-length': Buffer.byteLength(postData)
+    }
+  };
+
+  const req = https.request(options, (res) => {
+    let body = '';
+    res.on('data', chunk => body += chunk);
+    res.on('end', () => {
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        console.log(`[EMAIL SENT] Brevo API dispatched email successfully. Response: ${body}`);
+      } else {
+        console.error(`[EMAIL ERROR] Brevo API returned status ${res.statusCode}: ${body}`);
+      }
+    });
+  });
+
+  req.on('error', (err) => {
+    console.error('[EMAIL ERROR] Brevo API request failed:', err.message);
+  });
+
+  req.write(postData);
+  req.end();
+}
