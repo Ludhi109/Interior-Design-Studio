@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const apiRouter = require('./routes/api');
 
 const app = express();
@@ -14,6 +15,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static frontend files from the public directory
+app.use(express.static(path.join(__dirname, '../public')));
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -24,6 +28,15 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api', apiRouter);
+
+// Serve frontend index.html for any non-API route
+app.get('*', (req, res, next) => {
+  // If it starts with /api, let it fall through to the 404 handler
+  if (req.path.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // 404 handler
 app.use((req, res, next) => {

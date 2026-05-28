@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Configure API URL dynamically based on environment (local development vs production)
     const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:5000/api'
-        : 'https://interior-design-studio-1.onrender.com/api';
+        : '/api'; // Route API calls to the same Vercel deployment domain
     const contactForm = document.getElementById('contactForm');
     const formFeedback = document.getElementById('formFeedback');
     
