@@ -27,7 +27,7 @@ exports.handleSubmission = (req, res) => {
   // 3. Insert record into database
   const sql = `INSERT INTO inquiries (name, email, project_type, message) VALUES (?, ?, ?, ?)`;
   
-  db.run(sql, [name, email, projectType, message], function (err) {
+  db.run(sql, [name, email, projectType, message], async function (err) {
     if (err) {
       console.error('[DATABASE ERROR] Failed to insert inquiry:', err.message);
       return res.status(500).json({
@@ -45,7 +45,11 @@ exports.handleSubmission = (req, res) => {
     console.log('====================================');
 
     // Send email notification to admin
-    emailService.sendContactNotification({ name, email, projectType, message });
+    try {
+      await emailService.sendContactNotification({ name, email, projectType, message });
+    } catch (emailErr) {
+      console.error('[EMAIL ERROR] Failed to send admin email notification:', emailErr.message);
+    }
 
     // 4. Return success response
     res.status(200).json({

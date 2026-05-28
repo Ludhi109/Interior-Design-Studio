@@ -45,7 +45,7 @@ if (process.env.SMTP_USER && process.env.SMTP_PASS) {
 /**
  * Sends a notification email when a new project inquiry is received.
  */
-exports.sendContactNotification = (inquiry) => {
+exports.sendContactNotification = async (inquiry) => {
   const { name, email, projectType, message } = inquiry;
   const subject = `[AURA Atelier] New Project Inquiry: ${name}`;
 
@@ -85,13 +85,13 @@ exports.sendContactNotification = (inquiry) => {
     </div>
   `;
 
-  dispatchMail(subject, htmlContent);
+  return await dispatchMail(subject, htmlContent);
 };
 
 /**
  * Sends a notification email when a new newsletter subscriber registers.
  */
-exports.sendNewsletterNotification = (subscriberEmail) => {
+exports.sendNewsletterNotification = async (subscriberEmail) => {
   const subject = `[AURA Atelier] New Journal Subscriber: ${subscriberEmail}`;
 
   const htmlContent = `
@@ -115,38 +115,46 @@ exports.sendNewsletterNotification = (subscriberEmail) => {
     </div>
   `;
 
-  dispatchMail(subject, htmlContent);
+  return await dispatchMail(subject, htmlContent);
 };
 
 /**
  * Helper to dispatch mail via Brevo HTTP API, SMTP, or log it as a simulation.
  */
 function dispatchMail(subject, htmlContent) {
-  if (process.env.BREVO_API_KEY) {
-    sendBrevoEmail(subject, htmlContent);
-  } else if (transporter) {
-    const mailOptions = {
-      from: `"AURA Atelier API" <${process.env.SMTP_USER}>`,
-      to: adminEmail,
-      subject: subject,
-      html: htmlContent
-    };
+  return new Promise((resolve, reject) => {
+    if (process.env.BREVO_API_KEY) {
+      sendBrevoEmail(subject, htmlContent, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+    } else if (transporter) {
+      const mailOptions = {
+        from: `"AURA Atelier API" <${process.env.SMTP_USER}>`,
+        to: adminEmail,
+        subject: subject,
+        html: htmlContent
+      };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error('[EMAIL ERROR] Failed to send email:', err.message);
-      } else {
-        console.log(`[EMAIL SENT] Notification successfully dispatched. Message ID: ${info.messageId}`);
-      }
-    });
-  } else {
-    // Beautiful simulation logger
-    console.log('\n--- [SIMULATED EMAIL NOTIFICATION] ---');
-    console.log(`To:      ${adminEmail}`);
-    console.log(`Subject: ${subject}`);
-    console.log('--- HTML Preview ---');
-    console.log(htmlContent.replace(/<[^>]*>/g, '').trim().substring(0, 400) + '...\n---------------------------------------\n');
-  }
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.error('[EMAIL ERROR] Failed to send email:', err.message);
+          reject(err);
+        } else {
+          console.log(`[EMAIL SENT] Notification successfully dispatched. Message ID: ${info.messageId}`);
+          resolve(info);
+        }
+      });
+    } else {
+      // Beautiful simulation logger
+      console.log('\n--- [SIMULATED EMAIL NOTIFICATION] ---');
+      console.log(`To:      ${adminEmail}`);
+      console.log(`Subject: ${subject}`);
+      console.log('--- HTML Preview ---');
+      console.log(htmlContent.replace(/<[^>]*>/g, '').trim().substring(0, 400) + '...\n---------------------------------------\n');
+      resolve({ simulated: true });
+    }
+  });
 }
 
 /**
@@ -250,7 +258,7 @@ exports.testSMTPConnection = (callback) => {
 /**
  * Sends email using Brevo's HTTP API (bypassing Render SMTP blocks)
  */
-function sendBrevoEmail(subject, htmlContent) {
+function sendBrevoEmail(subject, htmlContent, callback) {
   const apiKey = process.env.BREVO_API_KEY;
   const senderEmail = process.env.SMTP_USER || 'luckylucky16477@gmail.com';
 
@@ -280,14 +288,17 @@ function sendBrevoEmail(subject, htmlContent) {
     res.on('end', () => {
       if (res.statusCode >= 200 && res.statusCode < 300) {
         console.log(`[EMAIL SENT] Brevo API dispatched email successfully. Response: ${body}`);
+        if (callback) callback(null, body);
       } else {
         console.error(`[EMAIL ERROR] Brevo API returned status ${res.statusCode}: ${body}`);
+        if (callback) callback(new Error(`Brevo HTTP API returned status ${res.statusCode}: ${body}`));
       }
     });
   });
 
   req.on('error', (err) => {
     console.error('[EMAIL ERROR] Brevo API request failed:', err.message);
+    if (callback) callback(err);
   });
 
   req.write(postData);

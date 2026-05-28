@@ -27,7 +27,7 @@ exports.handleSubscription = (req, res) => {
   // 3. Insert record into database
   const sql = `INSERT INTO subscribers (email) VALUES (?)`;
 
-  db.run(sql, [email], function (err) {
+  db.run(sql, [email], async function (err) {
     if (err) {
       // Handle email duplicates gracefully due to UNIQUE constraint
       if (err.message.includes('UNIQUE constraint failed')) {
@@ -51,7 +51,11 @@ exports.handleSubscription = (req, res) => {
     console.log('====================================');
 
     // Send email notification to admin
-    emailService.sendNewsletterNotification(email);
+    try {
+      await emailService.sendNewsletterNotification(email);
+    } catch (emailErr) {
+      console.error('[EMAIL ERROR] Failed to send subscriber email notification:', emailErr.message);
+    }
 
     // 4. Return success response
     res.status(200).json({
